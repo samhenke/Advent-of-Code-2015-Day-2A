@@ -24,5 +24,12 @@
 open Base
 
 
+let wrapping_paper_required l w h =
+    let s1, s2, s3 = w*h, l*h, l*w in
+    2 * (s1 + s2 + s3) + Int.min s1 (Int.min s2 s3)
+
 let () =
-    Stdlib.print_endline "Hello, World!"
+    let f line = Stdlib.Scanf.sscanf line "%ux%ux%u" wrapping_paper_required in
+    In_channel.fold_lines (fun acc line -> acc + (f line)) 0 In_channel.stdin
+    |> Stdlib.print_int
+    |> Stdlib.print_newline
